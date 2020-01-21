@@ -8,12 +8,13 @@ public class MoleGame : MonoBehaviour, IVirtualButtonEventHandler
   const float low = -0.1f, high = 0.03f, difficulty = 3.5f;  // difficulty should vary from 1 to 5
   float timeElapsed = 0f, speed = 20f;  // speed is speed of mole up and mole down
   const int size = 3;
-  int index;
+  int index, score = 0;
   enum dir { up, down }
   dir direction = dir.up;
   System.Random random = new System.Random();
   List<GameObject> moles = new List<GameObject>() { null, null, null };  // length should be same as size, all null
   GameObject temp;
+  TextMesh scoreText;
 
   public void OnButtonPressed(VirtualButtonBehaviour vb)
   {
@@ -21,6 +22,8 @@ public class MoleGame : MonoBehaviour, IVirtualButtonEventHandler
     {
       timeElapsed = 0f;
       direction = dir.down;
+      score += 10;
+      scoreText.text = "Score: " + score.ToString();
     }
   }
 
@@ -28,6 +31,8 @@ public class MoleGame : MonoBehaviour, IVirtualButtonEventHandler
 
   void Start()
   {
+    scoreText = FindObjectOfType<TextMesh>();
+
     for (int i = 1; i < size + 1; i++)
       moles[i - 1] = GameObject.Find("mole " + i.ToString());
 
