@@ -5,20 +5,19 @@ using Vuforia;
 
 public class MoleGame : MonoBehaviour, IVirtualButtonEventHandler
 {
-  const float low = -0.1f, high = 0.03f, difficulty = 3.5f;  // difficulty should vary from 1 to 5
+  public float low = -0.1f, high = 0.03f, difficulty = 3.5f;  // difficulty should vary from 1 to 5
   float timeElapsed = 0f, speed = 20f;  // speed is speed of mole up and mole down
-  const int size = 3;
+  public int size = 5;
   int index, score = 0;
   enum dir { up, down }
   dir direction = dir.up;
   System.Random random = new System.Random();
-  List<GameObject> moles = new List<GameObject>() { null, null, null };  // length should be same as size, all null
-  GameObject temp;
+  List<GameObject> moles = new List<GameObject>();  // length should be same as size, all null
   TextMesh scoreText;
 
   public void OnButtonPressed(VirtualButtonBehaviour vb)
   {
-    if (vb.VirtualButtonName[7].ToString() == (index + 1).ToString())
+    if (vb.VirtualButtonName.Split(' ')[1].ToString() == (index + 1).ToString())
     {
       timeElapsed = 0f;
       direction = dir.down;
@@ -34,15 +33,12 @@ public class MoleGame : MonoBehaviour, IVirtualButtonEventHandler
     scoreText = FindObjectOfType<TextMesh>();
 
     for (int i = 1; i < size + 1; i++)
-      moles[i - 1] = GameObject.Find("mole " + i.ToString());
-
-    index = random.Next(size);
+      moles.Add(GameObject.Find("mole " + i.ToString()));
 
     for (int i = 1; i < size + 1; i++)
-    {
-      temp = GameObject.Find("button " + i.ToString());
-      temp.GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
-    }
+      GameObject.Find("button " + i.ToString()).GetComponent<VirtualButtonBehaviour>().RegisterEventHandler(this);
+
+    index = random.Next(size);
   }
 
   void Update()
