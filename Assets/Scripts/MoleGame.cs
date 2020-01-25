@@ -17,7 +17,7 @@ public class MoleGame : MonoBehaviour, IVirtualButtonEventHandler
 
   public void OnButtonPressed(VirtualButtonBehaviour vb)
   {
-    if (vb.VirtualButtonName.Split(' ')[1].ToString() == (index + 1).ToString())
+    if (vb.VirtualButtonName.Split(' ')[1] == (index + 1).ToString())
     {
       timeElapsed = 0f;
       direction = dir.down;
